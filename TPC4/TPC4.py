@@ -1,6 +1,5 @@
 import ply.lex as lex
 
-# Lista de tokens
 tokens = (
     'SELECT',
     'FROM',
@@ -17,7 +16,6 @@ tokens = (
     'VARIAVEL'
 )
 
-# Expressões regulares para os tokens
 t_SELECT = r'Select'
 t_FROM = r'From'
 t_WHERE = r'Where'
@@ -30,10 +28,7 @@ t_MAIOR = r'\>'
 t_MENOR = r'\<'
 t_MAIOReIGUAL = r'\>\='
 t_MENOReIGUAL = r'\<\='
-#t_VARIAVEL = r'[a-zA-Z_]\w*'
 
-# TIVE QUE FAZER ESTA "GAMBIARRA" PARA QUE A FUNÇÃO t_VARIAVEL FUNCIONASSE, pois estava a assumir que todas as palavras eram variáveis
-#mesmo que eu definisse a função t_VARIAVEL depois de todas as outras funções, o que não faz sentido.
 def t_VARIAVEL(t):
     r'[a-zA-Z_]\w*'
     if t.value == 'Select':
@@ -44,23 +39,18 @@ def t_VARIAVEL(t):
         t.type = 'WHERE'
     return t
 
-# Função para manipular quebra de linha
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Caracteres ignorados (espaço e tabulação)
 t_ignore = ' \t'
 
-# Função para lidar com erros de tokens
 def t_error(t):
     print("Caractere ilegal '%s'" % t.value[0])
     t.lexer.skip(1)
 
-# Inicialização do lexer
 lexer = lex.lex()
 
-# Função principal
 def main():
     input_file = 'input.txt'
     output_file = 'output.txt'
